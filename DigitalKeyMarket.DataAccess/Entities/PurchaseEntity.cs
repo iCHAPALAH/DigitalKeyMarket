@@ -8,9 +8,9 @@ public class PurchaseEntity : BaseEntity
     public DateTime Date { get; set; }
     public int Price { get; set; }
     
-    public Guid UserId { get; set; }
+    public int UserId { get; set; }
     public UserEntity User { get; set; }
     
-    public Guid ItemId { get; set; }
+    public int ItemId { get; set; }
     public ItemEntity Item { get; set; }
 }
