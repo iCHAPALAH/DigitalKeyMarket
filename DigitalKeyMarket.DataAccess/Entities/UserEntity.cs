@@ -11,6 +11,7 @@ public class UserEntity : BaseEntity
     public DateOnly Birthday { get; set; }
     public bool IsVerified { get; set; }
     
-    public List<RoleEntity> Roles { get; set; }
+    public int RoleId { get; set; }
+    public RoleEntity Role { get; set; }
     public List<PurchaseEntity> Purchases { get; set; }
 }
