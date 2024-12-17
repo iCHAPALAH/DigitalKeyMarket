@@ -12,6 +12,6 @@ ApplicationConfigurator.ConfigureServices(builder, settings);
 
 var app = builder.Build();
 
-ApplicationConfigurator.ConfigureApplication(app);
+ApplicationConfigurator.ConfigureApplication(app, settings);
 
 app.Run();

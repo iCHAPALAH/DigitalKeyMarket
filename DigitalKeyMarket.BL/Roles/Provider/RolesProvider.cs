@@ -6,30 +6,15 @@ using DigitalKeyMarket.DataAccess.Repository;
 
 namespace DigitalKeyMarket.BL.Roles.Provider;
 
-public class RolesProvider : IRolesProvider
+public class RolesProvider(IRepository<RoleEntity> rolesRepository, IMapper mapper) : IRolesProvider
 {
-    private readonly IRepository<RoleEntity> _rolesRepository;
-    private readonly IMapper _mapper;
-
-    public RolesProvider(IRepository<RoleEntity> rolesRepository, IMapper mapper)
+    public IEnumerable<RoleModel> GetRoles(RoleFilterModel? filter = null)
     {
-        _rolesRepository = rolesRepository;
-        _mapper = mapper;
-    }
+        var namePart = filter?.NamePart;
+        
+        var roles = rolesRepository.GetAll(r =>
+            r.Name == null || namePart == null || r.Name.Contains(namePart));
 
-    public IEnumerable<RoleModel> GetRoles()
-    {
-        var roles = _rolesRepository.GetAll().ToList();
-
-        return _mapper.Map<IEnumerable<RoleModel>>(roles);
-    }
-
-    public RoleModel GetRoleInfo(int id)
-    {
-        var role = _rolesRepository.GetById(id);
-        if (role == null)
-            throw new RoleNotFoundException("Role does not exist.");
-
-        return _mapper.Map<RoleModel>(role);
+        return mapper.Map<IEnumerable<RoleModel>>(roles);
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace DigitalKeyMarket.DataAccess.Entities;
 
-public class BaseEntity
+public abstract class BaseEntity : IBaseEntity
 {
     public int Id { get; set; }
     public Guid ExternalId { get; set; }

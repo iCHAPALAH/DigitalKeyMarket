@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using DigitalKeyMarket.BL.Roles.Exceptions;
 using DigitalKeyMarket.BL.Users.Exceptions;
 using DigitalKeyMarket.BL.Users.Model;
 using DigitalKeyMarket.DataAccess.Entities;
@@ -6,37 +7,72 @@ using DigitalKeyMarket.DataAccess.Repository;
 
 namespace DigitalKeyMarket.BL.Users.Manager;
 
-public class UsersManager : IUsersManager
+public class UsersManager(
+    IRepository<UserEntity> usersRepository,
+    IRepository<RoleEntity> rolesRepository,
+    IMapper mapper)
+    : IUsersManager
 {
-    private readonly IRepository<UserEntity> _usersRepository;
-    private readonly IMapper _mapper;
+    public UserModel UpdateUser(int userId, UpdateUserModel update)
+    {
+        var entity = usersRepository.GetById(userId);
+        if (entity is null)
+            throw new UserNotFoundException();
 
-    public UsersManager(IRepository<UserEntity> usersRepository, IMapper mapper)
-    {
-        _usersRepository = usersRepository;
-        _mapper = mapper;
-    }
-    
-    public UserModel CreateUser(CreateUserModel createUserModel)
-    {
-        var user = _mapper.Map<UserEntity>(createUserModel);
-        user = _usersRepository.Save(user);
-        return _mapper.Map<UserModel>(user);
+        entity.Username = update.Username ?? entity.Username;
+        entity.Email = update.Email ?? entity.Email;
+        entity.PasswordHash = update.PasswordHash ?? entity.PasswordHash;
+        entity.Birthday = update.Birthday ?? entity.Birthday;
+
+        try
+        {
+            var user = usersRepository.Save(entity);
+            return mapper.Map<UserModel>(user);
+        }
+        catch (Exception)
+        {
+            throw new UserAlreadyExistsException();
+        }
     }
 
-    public UserModel UpdateUser(UpdateUserModel updateUserModel)
+    public UserModel UpdateUsersRole(int userId, int roleId)
     {
-        var user = _mapper.Map<UserEntity>(updateUserModel);
-        user = _usersRepository.Save(user);
-        return _mapper.Map<UserModel>(user);
+        var userEntity = usersRepository.GetById(userId);
+        if (userEntity is null)
+            throw new UserNotFoundException();
+
+        var roleEntity = rolesRepository.GetById(roleId);
+        if (roleEntity is null)
+            throw new RoleNotFoundException();
+
+        userEntity.RoleId = roleId;
+        userEntity.Role = roleEntity;
+        
+        var user = usersRepository.Save(userEntity);
+        return mapper.Map<UserModel>(user);
     }
 
-    public void DeleteUser(int id)
+    public UserModel VerifyUser(int userId)
     {
-        var user = _usersRepository.GetById(id);
+        var userEntity = usersRepository.GetById(userId);
+        if (userEntity is null)
+            throw new UserNotFoundException();
+
+        if (userEntity.IsVerified)
+            throw new UserAlreadyVerifiedException();
+        
+        userEntity.IsVerified = true;
+        
+        var user = usersRepository.Save(userEntity);
+        return mapper.Map<UserModel>(user);
+    }
+
+    public void DeleteUser(int userId)
+    {
+        var user = usersRepository.GetById(userId);
         if (user == null)
-            throw new UserNotFoundException("User does not exist.");
+            throw new UserNotFoundException();
             
-        _usersRepository.Delete(user);
+        usersRepository.Delete(user);
     }
 }

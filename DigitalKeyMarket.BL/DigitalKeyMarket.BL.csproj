@@ -14,4 +14,20 @@
       <ProjectReference Include="..\DigitalKeyMarket.DataAccess\DigitalKeyMarket.DataAccess.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="Roles\Manager\**" />
+      <Compile Remove="Roles\Model\CreateRoleModel.cs" />
+      <Compile Remove="Roles\Model\UpdateRoleModel.cs" />
+      <Compile Remove="Users\Model\CreateUserModel.cs" />
+      <Compile Remove="Users\Model\UpdateUsersRoleModel.cs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="Roles\Manager\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Roles\Manager\**" />
+    </ItemGroup>
+
 </Project>

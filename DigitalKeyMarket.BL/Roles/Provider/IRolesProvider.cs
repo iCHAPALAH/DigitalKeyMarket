@@ -4,6 +4,5 @@ namespace DigitalKeyMarket.BL.Roles.Provider;
 
 public interface IRolesProvider
 {
-    IEnumerable<RoleModel> GetRoles();
-    RoleModel GetRoleInfo(int id);
+    IEnumerable<RoleModel> GetRoles(RoleFilterModel? filter = null);
 }

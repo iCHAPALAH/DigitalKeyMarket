@@ -4,6 +4,6 @@ namespace DigitalKeyMarket.BL.Users.Provider;
 
 public interface IUsersProvider
 {
-    IEnumerable<UserModel> GetUsers();
+    IEnumerable<UserModel> GetUsers(FilterUserModel? filter = null);
     UserModel GetUserInfo(int id);
 }
