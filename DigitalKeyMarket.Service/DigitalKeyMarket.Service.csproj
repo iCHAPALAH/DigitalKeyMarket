@@ -7,8 +7,12 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Duende.IdentityServer" Version="7.0.8" />
+        <PackageReference Include="FluentValidation" Version="11.11.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.11" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.11" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.8"/>
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.10" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.11" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.10">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -21,7 +25,24 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\DigitalKeyMarket.BL\DigitalKeyMarket.BL.csproj" />
       <ProjectReference Include="..\DigitalKeyMarket.DataAccess\DigitalKeyMarket.DataAccess.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="Validators\Role\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Remove="Validators\Role\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Remove="Validators\Role\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Validators\Role\**" />
     </ItemGroup>
 
 </Project>

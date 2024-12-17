@@ -4,7 +4,7 @@ namespace DigitalKeyMarket.Service.IoC;
 
 public static class SerilogConfigurator
 {
-    public static void ConfigureService(WebApplicationBuilder builder)
+    public static void ConfigureServices(WebApplicationBuilder builder)
     {
         builder.Host.UseSerilog((context, loggerConfiguration) =>
         {

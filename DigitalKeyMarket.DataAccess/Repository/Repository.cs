@@ -5,25 +5,25 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace DigitalKeyMarket.DataAccess.Repository;
 
-public class Repository<T> : IRepository<T> where T : BaseEntity
+public class Repository<T> : IRepository<T> where T : class, IBaseEntity
 {
-    private readonly IDbContextFactory<DbContext> _contextFactory;
+    private readonly IDbContextFactory<DigitalKeyMarketDbContext> _contextFactory;
     
-    public Repository(IDbContextFactory<DbContext> contextFactory)
+    public Repository(IDbContextFactory<DigitalKeyMarketDbContext> contextFactory)
     {
         _contextFactory = contextFactory;
     }
 
-    public IQueryable<T> GetAll()
+    public IEnumerable<T> GetAll()
     {
         using var dbContext = _contextFactory.CreateDbContext();
-        return dbContext.Set<T>();
+        return dbContext.Set<T>().AsNoTracking().ToList();
     }
 
-    public IQueryable<T> GetAll(Expression<Func<T, bool>> predicate)
+    public IEnumerable<T> GetAll(Expression<Func<T, bool>> predicate)
     {
         using var dbContext = _contextFactory.CreateDbContext();
-        return dbContext.Set<T>().Where(predicate);
+        return dbContext.Set<T>().AsNoTracking().Where(predicate).ToList();
     }
 
     public T? GetById(int id)
@@ -35,7 +35,7 @@ public class Repository<T> : IRepository<T> where T : BaseEntity
     public T? GetById(Guid id)
     {
         using var dbContext = _contextFactory.CreateDbContext();
-        return dbContext.Set<T>().FirstOrDefault(e => e.ExternalId == id);
+        return dbContext.Set<T>().AsNoTracking().FirstOrDefault(e => e.ExternalId == id);
     }
 
     public T Save(T entity)
@@ -45,7 +45,7 @@ public class Repository<T> : IRepository<T> where T : BaseEntity
         entity.ModificationTime = DateTime.UtcNow;
         EntityEntry<T> result;
         
-        if (dbContext.Set<T>().FirstOrDefault(e => e.Id == entity.Id) == null)
+        if (dbContext.Set<T>().AsNoTracking().FirstOrDefault(e => e.Id == entity.Id) == null)
         {
             entity.ExternalId = Guid.NewGuid();
             entity.CreationTime = entity.ModificationTime;
