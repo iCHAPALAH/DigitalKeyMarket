@@ -17,7 +17,7 @@ namespace DigitalKeyMarket.DataAccess.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.10")
+                .HasAnnotation("ProductVersion", "8.0.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -44,6 +44,12 @@ namespace DigitalKeyMarket.DataAccess.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ExternalId")
+                        .IsUnique();
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("Edition");
                 });
@@ -80,6 +86,12 @@ namespace DigitalKeyMarket.DataAccess.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ExternalId")
+                        .IsUnique();
+
+                    b.HasIndex("Name", "ReleaseDate")
+                        .IsUnique();
+
                     b.ToTable("Game");
                 });
 
@@ -105,6 +117,12 @@ namespace DigitalKeyMarket.DataAccess.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ExternalId")
+                        .IsUnique();
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("Genre");
                 });
@@ -145,9 +163,13 @@ namespace DigitalKeyMarket.DataAccess.Migrations
 
                     b.HasIndex("EditionId");
 
-                    b.HasIndex("GameId");
+                    b.HasIndex("ExternalId")
+                        .IsUnique();
 
                     b.HasIndex("PlaygateId");
+
+                    b.HasIndex("GameId", "PlaygateId", "EditionId")
+                        .IsUnique();
 
                     b.ToTable("Item");
                 });
@@ -175,6 +197,12 @@ namespace DigitalKeyMarket.DataAccess.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ExternalId")
+                        .IsUnique();
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.ToTable("Marketplace");
                 });
 
@@ -200,6 +228,12 @@ namespace DigitalKeyMarket.DataAccess.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ExternalId")
+                        .IsUnique();
+
+                    b.HasIndex("Name")
+                        .IsUnique();
 
                     b.ToTable("Platform");
                 });
@@ -229,9 +263,13 @@ namespace DigitalKeyMarket.DataAccess.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ExternalId")
+                        .IsUnique();
+
                     b.HasIndex("MarketplaceId");
 
-                    b.HasIndex("PlatformId");
+                    b.HasIndex("PlatformId", "ExternalId")
+                        .IsUnique();
 
                     b.ToTable("Playgate");
                 });
@@ -267,9 +305,13 @@ namespace DigitalKeyMarket.DataAccess.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ExternalId")
+                        .IsUnique();
+
                     b.HasIndex("ItemId");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("UserId", "ItemId", "Date")
+                        .IsUnique();
 
                     b.ToTable("Purchase");
                 });
@@ -282,6 +324,9 @@ namespace DigitalKeyMarket.DataAccess.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("ConcurrencyStamp")
+                        .HasColumnType("text");
+
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("timestamp with time zone");
 
@@ -292,12 +337,20 @@ namespace DigitalKeyMarket.DataAccess.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")
-                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("NormalizedName")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Role");
+                    b.HasIndex("ExternalId")
+                        .IsUnique();
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("user_roles", (string)null);
                 });
 
             modelBuilder.Entity("DigitalKeyMarket.DataAccess.Entities.UserEntity", b =>
@@ -308,15 +361,23 @@ namespace DigitalKeyMarket.DataAccess.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("integer");
+
                     b.Property<DateOnly>("Birthday")
                         .HasColumnType("date");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .HasColumnType("text");
 
                     b.Property<DateTime>("CreationTime")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("boolean");
 
                     b.Property<Guid>("ExternalId")
                         .HasColumnType("uuid");
@@ -324,11 +385,40 @@ namespace DigitalKeyMarket.DataAccess.Migrations
                     b.Property<bool>("IsVerified")
                         .HasColumnType("boolean");
 
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("timestamp with time zone");
+
                     b.Property<DateTime>("ModificationTime")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<string>("NormalizedEmail")
+                        .HasColumnType("text");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasColumnType("text");
+
                     b.Property<string>("PasswordHash")
-                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("UserName")
                         .HasColumnType("text");
 
                     b.Property<string>("Username")
@@ -336,6 +426,17 @@ namespace DigitalKeyMarket.DataAccess.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.HasIndex("ExternalId")
+                        .IsUnique();
+
+                    b.HasIndex("RoleId");
+
+                    b.HasIndex("Username")
+                        .IsUnique();
 
                     b.ToTable("User");
                 });
@@ -355,19 +456,97 @@ namespace DigitalKeyMarket.DataAccess.Migrations
                     b.ToTable("Tag", (string)null);
                 });
 
-            modelBuilder.Entity("RoleEntityUserEntity", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
-                    b.Property<int>("RolesId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    b.Property<int>("UsersId")
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("text");
+
+                    b.Property<int>("RoleId")
                         .HasColumnType("integer");
 
-                    b.HasKey("RolesId", "UsersId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("UsersId");
+                    b.ToTable("user_role_claims", (string)null);
+                });
 
-                    b.ToTable("Permission", (string)null);
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("text");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("user_claims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ProviderKey")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.ToTable("user_logins", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
+                {
+                    b.Property<int>("RoleId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.ToTable("user_role_owners", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("text");
+
+                    b.ToTable("user_tokens", (string)null);
                 });
 
             modelBuilder.Entity("DigitalKeyMarket.DataAccess.Entities.ItemEntity", b =>
@@ -435,6 +614,17 @@ namespace DigitalKeyMarket.DataAccess.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("DigitalKeyMarket.DataAccess.Entities.UserEntity", b =>
+                {
+                    b.HasOne("DigitalKeyMarket.DataAccess.Entities.RoleEntity", "Role")
+                        .WithMany("Users")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+                });
+
             modelBuilder.Entity("GameEntityGenreEntity", b =>
                 {
                     b.HasOne("DigitalKeyMarket.DataAccess.Entities.GameEntity", null)
@@ -446,21 +636,6 @@ namespace DigitalKeyMarket.DataAccess.Migrations
                     b.HasOne("DigitalKeyMarket.DataAccess.Entities.GenreEntity", null)
                         .WithMany()
                         .HasForeignKey("GenresId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("RoleEntityUserEntity", b =>
-                {
-                    b.HasOne("DigitalKeyMarket.DataAccess.Entities.RoleEntity", null)
-                        .WithMany()
-                        .HasForeignKey("RolesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("DigitalKeyMarket.DataAccess.Entities.UserEntity", null)
-                        .WithMany()
-                        .HasForeignKey("UsersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -493,6 +668,11 @@ namespace DigitalKeyMarket.DataAccess.Migrations
             modelBuilder.Entity("DigitalKeyMarket.DataAccess.Entities.PlaygateEntity", b =>
                 {
                     b.Navigation("Items");
+                });
+
+            modelBuilder.Entity("DigitalKeyMarket.DataAccess.Entities.RoleEntity", b =>
+                {
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("DigitalKeyMarket.DataAccess.Entities.UserEntity", b =>

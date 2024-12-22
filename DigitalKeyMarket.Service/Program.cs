@@ -1,21 +1,17 @@
-using DigitalKeyMarket.Service.IoC;
+using DigitalKeyMarket.Service.DI;
+using DigitalKeyMarket.Service.Settings;
+
+var configuration = new ConfigurationBuilder()
+    .AddJsonFile("appsettings.json", optional: false)
+    .Build();
+var settings = DigitalKeyMarketSettingsReader.Read(configuration);
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
-
-SerilogConfigurator.ConfigureService(builder);
-SwaggerConfigurator.ConfigureServices(builder);
-DbContextConfigurator.ConfigureServices(builder);
+ApplicationConfigurator.ConfigureServices(builder, settings);
 
 var app = builder.Build();
 
-SerilogConfigurator.ConfigureApplication(app);
-SwaggerConfigurator.ConfigureApplication(app);
-DbContextConfigurator.ConfigureApplication(app);
-
-app.UseHttpsRedirection();
-app.UseAuthorization();
-app.MapControllers();
+ApplicationConfigurator.ConfigureApplication(app, settings);
 
 app.Run();

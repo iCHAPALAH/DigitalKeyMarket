@@ -1,0 +1,7 @@
+﻿namespace DigitalKeyMarket.BL.Users.Exceptions;
+
+public class UserAlreadyExistsException : Exception
+{
+    public UserAlreadyExistsException() { }
+    public UserAlreadyExistsException(string message) : base(message) { }
+}

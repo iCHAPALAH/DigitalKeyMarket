@@ -1,18 +1,15 @@
 ﻿using DigitalKeyMarket.DataAccess;
+using DigitalKeyMarket.Service.Settings;
 using Microsoft.EntityFrameworkCore;
 
 namespace DigitalKeyMarket.Service.IoC;
 
-public class DbContextConfigurator
+public static class DbContextConfigurator
 {
-    public static void ConfigureServices(WebApplicationBuilder builder)
+    public static void ConfigureServices(IServiceCollection services, DigitalKeyMarketSettings settings)
     {
-        var configuration = new ConfigurationBuilder()
-            .AddJsonFile("appsettings.json", optional: false)
-            .Build();
-        var connectionString = configuration.GetConnectionString("DigitalKeyMarketDbContext");
-
-        builder.Services.AddDbContextFactory<DigitalKeyMarketDbContext>(
+        var connectionString = settings.DigitalKeyMarketDbContextConnectionString;
+        services.AddDbContextFactory<DigitalKeyMarketDbContext>(
             options => { options.UseNpgsql(connectionString); },
             ServiceLifetime.Scoped);
     }
