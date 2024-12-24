@@ -11,10 +11,10 @@ public class UserEntity : IdentityUser<int>, IBaseEntity
     public DateTime ModificationTime { get; set; }
     
     public string Username { get; set; }
-    public DateOnly Birthday { get; set; }
+    public DateOnly? Birthday { get; set; }
     public bool IsVerified { get; set; }
     
-    public int RoleId { get; set; }
-    public RoleEntity Role { get; set; }
+    public int? RoleId { get; set; }
+    public RoleEntity? Role { get; set; }
     public List<PurchaseEntity> Purchases { get; set; }
 }

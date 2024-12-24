@@ -364,7 +364,7 @@ namespace DigitalKeyMarket.DataAccess.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("integer");
 
-                    b.Property<DateOnly>("Birthday")
+                    b.Property<DateOnly?>("Birthday")
                         .HasColumnType("date");
 
                     b.Property<string>("ConcurrencyStamp")
@@ -409,7 +409,7 @@ namespace DigitalKeyMarket.DataAccess.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("boolean");
 
-                    b.Property<int>("RoleId")
+                    b.Property<int?>("RoleId")
                         .HasColumnType("integer");
 
                     b.Property<string>("SecurityStamp")
@@ -618,9 +618,7 @@ namespace DigitalKeyMarket.DataAccess.Migrations
                 {
                     b.HasOne("DigitalKeyMarket.DataAccess.Entities.RoleEntity", "Role")
                         .WithMany("Users")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("RoleId");
 
                     b.Navigation("Role");
                 });
