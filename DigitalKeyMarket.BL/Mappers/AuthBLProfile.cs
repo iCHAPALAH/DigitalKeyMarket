@@ -13,6 +13,7 @@ public class AuthBLProfile : Profile
             .ForMember(x => x.ExternalId, y => y.Ignore())
             .ForMember(x => x.CreationTime, y => y.Ignore())
             .ForMember(x => x.ModificationTime, y => y.Ignore())
+            .ForMember(x => x.IsVerified, y => y.Ignore())
             .ForMember(x => x.RoleId, y => y.Ignore());
     }
 }

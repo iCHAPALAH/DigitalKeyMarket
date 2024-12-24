@@ -3,6 +3,7 @@ using System;
 using DigitalKeyMarket.DataAccess;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DigitalKeyMarket.DataAccess.Migrations
 {
     [DbContext(typeof(DigitalKeyMarketDbContext))]
-    partial class DigitalKeyMarketDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241224090859_Lab5Migration1")]
+    partial class Lab5Migration1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
