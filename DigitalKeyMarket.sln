@@ -6,6 +6,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DigitalKeyMarket.DataAccess
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DigitalKeyMarket.BL", "DigitalKeyMarket.BL\DigitalKeyMarket.BL.csproj", "{0787D2A5-D502-43FF-8781-8847DDC09386}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DigitalKeyMarket.BL.UnitTests", "DigitalKeyMarket.BL.UnitTests\DigitalKeyMarket.BL.UnitTests.csproj", "{F38B9D88-9999-4D7A-A2DE-130D3E0E94F1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DigitalKeyMarket.Service.IntegrationTests", "DigitalKeyMarket.Service.IntegrationTests\DigitalKeyMarket.Service.IntegrationTests.csproj", "{0AD2B8F9-E9F8-4214-BC25-C32F0F830A70}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +28,13 @@ Global
 		{0787D2A5-D502-43FF-8781-8847DDC09386}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0787D2A5-D502-43FF-8781-8847DDC09386}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0787D2A5-D502-43FF-8781-8847DDC09386}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F38B9D88-9999-4D7A-A2DE-130D3E0E94F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F38B9D88-9999-4D7A-A2DE-130D3E0E94F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F38B9D88-9999-4D7A-A2DE-130D3E0E94F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F38B9D88-9999-4D7A-A2DE-130D3E0E94F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0AD2B8F9-E9F8-4214-BC25-C32F0F830A70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AD2B8F9-E9F8-4214-BC25-C32F0F830A70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AD2B8F9-E9F8-4214-BC25-C32F0F830A70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AD2B8F9-E9F8-4214-BC25-C32F0F830A70}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
